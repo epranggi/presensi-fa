@@ -4,7 +4,7 @@ import bgLogin from '../assets/images/bgLogin.jpg';
 import { RegisterUser } from '../api/UserApi';
 import { LoaderSquare } from '../components/Loader';
 
-export const Register = () => {
+export const RegisterPage = () => {
     const [form, setForm] = useState({
         name: '',
         nim: '',
@@ -86,8 +86,8 @@ export const Register = () => {
                         const messages = err.errors[key];
                         if (Array.isArray(messages) && messages.includes('validation.unique')) {
                             newErrors[key] = 'Data sudah digunakan';
-                        } else {
                             newErrors[key] = messages[0]; // ambil pesan pertama (fallback)
+                        } else {
                         }
                     }
                 }
