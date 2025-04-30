@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import bgLogin from '../assets/images/bgLogin.jpg';
 import { RegisterUser } from '../api/UserApi';
+import { LoaderSquare } from '../components/Loader';
 
 export const Register = () => {
     const [form, setForm] = useState({
@@ -74,11 +75,24 @@ export const Register = () => {
             try {
                 setLoading(true)
                 const response = await RegisterUser(data);
-                console.log('User berhasil didaftarkan')
                 setIsSuccess(true);
                 return response
             } catch (err) {
-                console.log(err)
+                const newErrors = {};
+
+                // Telusuri setiap key di error
+                if (err?.errors) {
+                    for (const key in err.errors) {
+                        const messages = err.errors[key];
+                        if (Array.isArray(messages) && messages.includes('validation.unique')) {
+                            newErrors[key] = 'Data sudah digunakan';
+                        } else {
+                            newErrors[key] = messages[0]; // ambil pesan pertama (fallback)
+                        }
+                    }
+                }
+
+                setErrors(newErrors);
             } finally {
                 setLoading(false)
             }
@@ -215,7 +229,7 @@ export const Register = () => {
                             {errors.confirmPassword && <p className="text-red-500 text-sm">{errors.confirmPassword}</p>}
                         </div>
                     </div>
-
+                    {loading ? <LoaderSquare /> : ""}
                     <button
                         type="submit"
                         className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded-xl transition duration-300"
