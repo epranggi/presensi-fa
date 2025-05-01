@@ -1,12 +1,31 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Menu, X } from 'lucide-react'; // Lucide untuk icon
 import defaultProfile from '../assets/images/defaultProfile.jpg'; // Ganti dengan path foto default
+import { useAuth } from '../context/AuthContext';
+import { LoaderPuff } from './Loader';
 
 export const Navbar = ({ user }) => {
     const [isOpen, setIsOpen] = useState(false);
     const toggleMenu = () => setIsOpen(!isOpen);
-    console.log(user.name)
+    const [errors, setErrors] = useState(null)
+    const [loading, setLoading] = useState(false)
+    const {Logout} = useAuth();
+    const navigate = useNavigate()
+
+    const handleClick = async () => {
+        console.log('click')
+        try {
+            setLoading(true)
+            await Logout()
+            navigate('/login')
+        } catch (err) {
+            console.log(err)
+            setErrors(err.message)
+        } finally {
+            setLoading(false)
+        }
+    }
 
     return (
         <nav className="bg-white shadow-md px-4 py-3 md:px-8 fixed w-full z-50">
@@ -28,7 +47,9 @@ export const Navbar = ({ user }) => {
                     <Link to="/dashboard" className="text-gray-700 hover:text-blue-600 transition">Dashboard</Link>
                     <Link to="/account" className="text-gray-700 hover:text-blue-600 transition">Account</Link>
                     <Link to="/presensi" className="text-gray-700 hover:text-blue-600 transition">Presensi</Link>
-                    <button className="text-gray-700 hover:text-red-600 transition">Logout</button>
+                    <button className="text-gray-700 hover:text-red-600 transition" onClick={handleClick}>Logout</button>
+                    {loading ? <LoaderPuff /> : ""}
+                    {errors && <p className="text-red-600 mt-2 text-sm">{errors}</p>}
                 </div>
 
                 {/* Kanan: Menu Mobile Toggle */}
@@ -45,7 +66,9 @@ export const Navbar = ({ user }) => {
                     <Link to="/dashboard" className="block text-gray-700 hover:text-blue-600 transition">Dashboard</Link>
                     <Link to="/account" className="block text-gray-700 hover:text-blue-600 transition">Account</Link>
                     <Link to="/presensi" className="block text-gray-700 hover:text-blue-600 transition">Presensi</Link>
-                    <button className="block text-gray-700 hover:text-red-600 transition">Logout</button>
+                    <button className="block text-gray-700 hover:text-red-600 transition" onClick={handleClick}>Logout</button>
+                    {loading ? <LoaderPuff /> : ""}
+                    {errors && <p className="text-red-600 mt-2 text-sm">{errors}</p>}
                 </div>
             )}
         </nav>
