@@ -1,7 +1,11 @@
+import { AppLayout } from "../layouts/AppLayout"
+
 export const Dashboard = () => {
     return (
         <>
-            <h1>Ini adalah halaman dashboard user</h1>
+            <AppLayout>
+                <h1>Ini adalah halaman dashboard user</h1>
+            </AppLayout>
         </>
     )
 }

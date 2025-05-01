@@ -1,7 +1,11 @@
+import { AppLayout } from "../layouts/AppLayout"
+
 export const DashboardAdmin = () => {
     return (
         <>
-            <h1>Ini adalah halaman dashboard ADMIN</h1>
+            <AppLayout>
+                <h1>Ini adalah halaman dashboard ADMIN</h1>
+            </AppLayout>
         </>
     )
 }
