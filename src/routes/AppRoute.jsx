@@ -8,6 +8,7 @@ import { DashboardAdmin } from "../pages/DashboardAdmin";
 import { Profile } from "../pages/Profile";
 import { ProfileEdit } from "../pages/ProfileEdit";
 import { Presence } from "../pages/Presence";
+import { PresenceAdd } from "../pages/PresenceAdd";
 
 export const router = createBrowserRouter([
     {
@@ -42,5 +43,9 @@ export const router = createBrowserRouter([
     {
         path: "/presence",
         element: <Presence></Presence>,
+    },
+    {
+        path: "/presence/add",
+        element: <PresenceAdd></PresenceAdd>,
     },
 ])

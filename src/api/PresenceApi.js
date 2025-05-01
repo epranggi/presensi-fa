@@ -17,3 +17,20 @@ export const GetPresences = async () => {
         throw error.response?.data || { message: 'Gagal menagmbil data presensi' };
     }
 }
+
+export const AddPresence = async (data) => {
+    const token = localStorage.getItem('token');
+    const header = {
+        headers: {
+            Authorization: `Bearer ${token}`,
+            'Accept': 'application/json'
+        }
+    }
+
+    try {
+        const response = await axios.post(`${API_URL}presence`, data, header)
+        return response
+    } catch (error) {
+        throw error.response?.data || { message: 'Gagal membuat data presensi' };
+    }
+}
