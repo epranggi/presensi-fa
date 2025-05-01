@@ -73,6 +73,7 @@ export const RegisterPage = () => {
 
         if (validate()) {
             try {
+                console.log(data)
                 setLoading(true)
                 const response = await RegisterUser(data);
                 setIsSuccess(true);

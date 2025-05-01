@@ -1,5 +1,6 @@
 import { Navbar } from '../components/Navbar';
 import { useAuth } from '../context/AuthContext';
+import CenterContainer from './CenterContainer';
 
 export const AppLayout = ({children}) => {
     const {user} = useAuth()
@@ -7,9 +8,9 @@ export const AppLayout = ({children}) => {
     return (
         <>
             <Navbar user={user} />
-            <main className="pt-16">
+            <CenterContainer className="pt-16">
                 {children}
-            </main>
+            </CenterContainer>
         </>
     );
 }

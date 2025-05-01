@@ -47,8 +47,8 @@ export const validateToken = async () => {
                 Authorization: `Bearer ${token}`,
             },
         });
-        console.log(response.data)
-        return response.data;
+        console.log(response.data.user)
+        return response.data.user;
     } catch (error) {
         throw error.response?.data || { message: 'Logout gagal' };
     }
