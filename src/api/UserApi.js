@@ -15,9 +15,9 @@ export const RegisterUser = async (data) => {
 export const UpdateUser = async (data, id) => {
     const token = localStorage.getItem('token');
 
-    data.forEach((value, key) => {
-        console.log(`${key}:`, value);
-    });
+    // data.forEach((value, key) => {
+    //     console.log(`${key}:`, value);
+    // });
 
     const header = {
         headers: {
