@@ -34,3 +34,20 @@ export const AddPresence = async (data) => {
         throw error.response?.data || { message: 'Gagal membuat data presensi' };
     }
 }
+
+export const DeletePresence = async (id) => {
+    const token = localStorage.getItem('token');
+    const header = {
+        headers: {
+            Authorization: `Bearer ${token}`,
+            'Accept': 'application/json'
+        }
+    }
+
+    try {
+        const response = await axios.delete(`${API_URL}presence/${id}`, header)
+        return response
+    } catch (error) {
+        throw error.response?.data || { message: 'Gagal membuat data presensi' };
+    }
+} 
