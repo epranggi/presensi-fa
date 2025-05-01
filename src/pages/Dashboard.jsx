@@ -66,7 +66,10 @@ export const Dashboard = () => {
                     <div className="bg-white border border-gray-100 rounded-2xl shadow-md p-6">
                         <div className="flex items-center space-x-2 mb-4">
                             <ClipboardDocumentListIcon className="h-6 w-6 text-indigo-600" />
-                            <h2 className="text-xl font-semibold text-gray-800">Riwayat Presensi</h2>
+                            <div className="flex flex-col items-start">
+                                <h2 className="text-xl font-semibold text-gray-800">Riwayat Presensi</h2>
+                                <Link to='/presence' className="text-sm font-semibold text-gray-400 underline">Lihat semua presensi</Link>
+                            </div>
                         </div>
                         {loading ? (
                             <p className="text-sm text-gray-500">Memuat data presensi...</p>

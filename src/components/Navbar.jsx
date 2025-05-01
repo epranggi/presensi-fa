@@ -46,7 +46,7 @@ export const Navbar = ({ user }) => {
                 <div className="hidden md:flex space-x-6 items-center">
                     <Link to="/dashboard" className="text-gray-700 hover:text-blue-600 transition">Dashboard</Link>
                     <Link to="/profile" className="text-gray-700 hover:text-blue-600 transition">Account</Link>
-                    <Link to="/presensi" className="text-gray-700 hover:text-blue-600 transition">Presensi</Link>
+                    <Link to="/presence" className="text-gray-700 hover:text-blue-600 transition">Presensi</Link>
                     <button className="text-gray-700 hover:text-red-600 transition" onClick={handleClick}>Logout</button>
                     {loading ? <LoaderPuff /> : ""}
                     {errors && <p className="text-red-600 mt-2 text-sm">{errors}</p>}
@@ -65,7 +65,7 @@ export const Navbar = ({ user }) => {
                 <div className="md:hidden mt-3 space-y-2 px-4">
                     <Link to="/dashboard" className="block text-gray-700 hover:text-blue-600 transition">Dashboard</Link>
                     <Link to="/profile" className="block text-gray-700 hover:text-blue-600 transition">Account</Link>
-                    <Link to="/presensi" className="block text-gray-700 hover:text-blue-600 transition">Presensi</Link>
+                    <Link to="/presence" className="block text-gray-700 hover:text-blue-600 transition">Presensi</Link>
                     <button className="block text-gray-700 hover:text-red-600 transition" onClick={handleClick}>Logout</button>
                     {loading ? <LoaderPuff /> : ""}
                     {errors && <p className="text-red-600 mt-2 text-sm">{errors}</p>}
