@@ -38,6 +38,7 @@ export const Dashboard = () => {
         fetchPresence();
     }, []);
 
+    const totalValidated = presence.filter(p => p.status === "validated").length;
 
     return (
         <AppLayout>
@@ -54,11 +55,12 @@ export const Dashboard = () => {
                     <div className="bg-white border border-gray-100 rounded-2xl shadow-md p-6 flex items-center space-x-4">
                         <CalendarDaysIcon className="h-10 w-10 text-indigo-600" />
                         <div>
-                            <h2 className="text-xl font-semibold text-gray-800">Total Presensi</h2>
-                            <p className="text-indigo-600 text-3xl font-bold">{presence?.length || 0}</p>
-                            <p className="text-sm text-gray-500">Jumlah kehadiran semester ini</p>
+                            <h2 className="text-xl font-semibold text-gray-800">Total Presensi Tervalidasi</h2>
+                            <p className="text-indigo-600 text-3xl font-bold">{totalValidated}</p>
+                            <p className="text-sm text-gray-500">Jumlah kehadiran yang tervalidasi</p>
                         </div>
                     </div>
+
 
                     {/* Kartu Riwayat Presensi */}
                     <div className="bg-white border border-gray-100 rounded-2xl shadow-md p-6">
@@ -72,13 +74,15 @@ export const Dashboard = () => {
                             <p className="text-sm text-red-500">{errors}</p>
                         ) : (
                             <ul className="divide-y divide-gray-200 max-h-60 overflow-y-auto">
-                                {presence.map((item) => (
-                                    <li key={item.id} className="py-2">
-                                        <p className="font-medium text-gray-800">Lab: {item.lab}</p>
-                                        <p className="text-sm text-gray-600">Status: <span className="capitalize">{item.status}</span></p>
-                                        <p className="text-sm text-gray-500 italic">"{item.note}"</p>
-                                    </li>
-                                ))}
+                                {presence
+                                    .slice(0, 4)
+                                    .map((item) => (
+                                        <li key={item.id} className="py-2">
+                                            <p className="font-medium text-gray-800">Lab: {item.lab}</p>
+                                            <p className="text-sm text-gray-600">Status: <span className="capitalize">{item.status}</span></p>
+                                            <p className="text-sm text-gray-500 italic">"{item.note}"</p>
+                                        </li>
+                                    ))}
                             </ul>
                         )}
                     </div>
