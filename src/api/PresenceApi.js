@@ -51,3 +51,23 @@ export const DeletePresence = async (id) => {
         throw error.response?.data || { message: 'Gagal membuat data presensi' };
     }
 } 
+
+export const UpdatePresenceStatus = async (id, status) => {
+    const token = localStorage.getItem('token');
+    const header = {
+        headers: {
+            Authorization: `Bearer ${token}`,
+            'Accept': 'application/json'
+        }
+    }
+    const data = {
+        'status': status
+    }
+    console.log(data, id)
+    try {
+        const response = await axios.post(`${API_URL}update-presence-status/${id}`, data, header)
+        return response
+    } catch (error) {
+        throw error.response?.data || { message: 'Gagal membuat data presensi' };
+    }
+}
