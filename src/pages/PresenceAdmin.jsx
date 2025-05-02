@@ -13,8 +13,12 @@ export const PresenceAdmin = () => {
     const [selectedId, setSelectedId] = useState(null);
     const [loadingDelete, setLoadingDelete] = useState(false);
 
-    const [searchQuery, setSearchQuery] = useState("");
     const [filteredPresence, setFilteredPresence] = useState([]);
+
+    const [selectedLab, setSelectedLab] = useState("");
+    const [selectedDate, setSelectedDate] = useState("");
+    const [selectedStatus, setSelectedStatus] = useState("");
+
 
     useEffect(() => {
         const fetchPresence = async () => {
@@ -27,6 +31,7 @@ export const PresenceAdmin = () => {
                 if (Array.isArray(data) && data.length > 0) {
                     const sortedData = data.sort((a, b) => new Date(b.date) - new Date(a.date));
                     setPresence(sortedData);
+                    console.log(sortedData)
                     setFilteredPresence(sortedData);
                 } else {
                     setPresence([]);
@@ -44,13 +49,15 @@ export const PresenceAdmin = () => {
     }, []);
 
     useEffect(() => {
-        // Filter presence berdasarkan query pencarian
-        const filtered = presence.filter(item =>
-            item.lab.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            item.date.toLowerCase().includes(searchQuery.toLowerCase())
-        );
+        const filtered = presence.filter(item => {
+            const matchLab = selectedLab ? item.lab.toLowerCase() === selectedLab.toLowerCase() : true;
+            const matchDate = selectedDate ? item.updated_at?.startsWith(selectedDate) : true;
+            const matchStatus = selectedStatus ? item.status === selectedStatus : true;
+            return matchLab && matchDate && matchStatus;
+        });
         setFilteredPresence(filtered);
-    }, [searchQuery, presence]);
+    }, [selectedLab, selectedDate, selectedStatus, presence]);
+
 
     const getStatusColor = (status) => {
         switch (status) {
@@ -58,8 +65,6 @@ export const PresenceAdmin = () => {
                 return "text-green-600 bg-green-100";
             case "pending":
                 return "text-yellow-600 bg-yellow-100";
-            case "rejected":
-                return "text-red-600 bg-red-100";
             default:
                 return "text-gray-600 bg-gray-100";
         }
@@ -109,15 +114,42 @@ export const PresenceAdmin = () => {
                     Riwayat Presensi Lengkap
                 </h1>
 
-                <div className="mb-6">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                    {/* Filter Lab */}
+                    <select
+                        value={selectedLab}
+                        onChange={(e) => setSelectedLab(e.target.value)}
+                        className="w-full px-4 py-2 border rounded-lg"
+                    >
+                        <option value="">Semua Lab</option>
+                        <option value="Lab 1">Lab 1</option>
+                        <option value="Lab 2">Lab 2</option>
+                        <option value="Lab 3">Lab 3</option>
+                        <option value="Lab 4">Lab 4</option>
+                        <option value="Lab 5">Lab 5</option>
+                        <option value="Lab 6">Lab 6</option>
+                    </select>
+
+                    {/* Filter Tanggal */}
                     <input
-                        type="text"
-                        placeholder="Cari berdasarkan Lab atau Tanggal"
-                        value={searchQuery}
-                        onChange={(e) => setSearchQuery(e.target.value)}
+                        type="date"
+                        value={selectedDate}
+                        onChange={(e) => setSelectedDate(e.target.value)}
                         className="w-full px-4 py-2 border rounded-lg"
                     />
+
+                    {/* Filter Status */}
+                    <select
+                        value={selectedStatus}
+                        onChange={(e) => setSelectedStatus(e.target.value)}
+                        className="w-full px-4 py-2 border rounded-lg"
+                    >
+                        <option value="">Semua Status</option>
+                        <option value="validated">Tervalidasi</option>
+                        <option value="pending">Belum Divalidasi</option>
+                    </select>
                 </div>
+
 
                 {loading ? (
                     <p className="text-sm text-gray-500">Memuat data presensi...</p>
