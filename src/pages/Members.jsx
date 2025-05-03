@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { AppLayout } from "../layouts/AppLayout";
-import { GetMembersData } from "../api/UserApi";
+import { GetMembersData, UpdateUser } from "../api/UserApi";
 import { Switch } from "@headlessui/react";
 
 export const Members = () => {
@@ -29,16 +29,36 @@ export const Members = () => {
         fetchMembers();
     }, []);
 
-    const toggleStatus = (id) => {
+    const toggleStatus = async (id) => {
+        const targetMember = members.find((m) => m.id === id); // <- Simpan dulu datanya
+
+        const newStatus = targetMember.status === "active" ? "inactive" : "active";
+
+        // Optimistic update
         setMembers((prevMembers) =>
             prevMembers.map((member) =>
-                member.id === id
-                    ? { ...member, status: member.status === "active" ? "inactive" : "active" }
-                    : member
+                member.id === id ? { ...member, status: newStatus } : member
             )
         );
-        // Tambahkan API update ke server jika ada
+
+        try {
+            const response = await UpdateUser({ status: newStatus }, id);
+            console.log("Status updated:", response);
+        } catch (error) {
+            console.error("Error updating status:", error);
+            setErrors(error);
+
+            // Rollback jika gagal
+            setMembers((prevMembers) =>
+                prevMembers.map((member) =>
+                    member.id === id ? { ...member, status: targetMember.status } : member
+                )
+            );
+        } finally {
+            setLoading(false);
+        }
     };
+
 
     // Pagination logic
     const indexOfLastItem = currentPage * itemsPerPage;
@@ -95,14 +115,14 @@ export const Members = () => {
                                                     checked={member.status === "active"}
                                                     onChange={() => toggleStatus(member.id)}
                                                     className={`${member.status === "active"
-                                                            ? "bg-green-500"
-                                                            : "bg-gray-300"
+                                                        ? "bg-green-500"
+                                                        : "bg-gray-300"
                                                         } relative inline-flex h-6 w-11 items-center rounded-full`}
                                                 >
                                                     <span
                                                         className={`${member.status === "active"
-                                                                ? "translate-x-6"
-                                                                : "translate-x-1"
+                                                            ? "translate-x-6"
+                                                            : "translate-x-1"
                                                             } inline-block h-4 w-4 transform rounded-full bg-white transition`}
                                                     />
                                                 </Switch>
@@ -128,8 +148,8 @@ export const Members = () => {
                                     key={index + 1}
                                     onClick={() => goToPage(index + 1)}
                                     className={`px-3 py-1 border rounded ${currentPage === index + 1
-                                            ? "bg-blue-500 text-white"
-                                            : "bg-gray-100 hover:bg-gray-200"
+                                        ? "bg-blue-500 text-white"
+                                        : "bg-gray-100 hover:bg-gray-200"
                                         }`}
                                 >
                                     {index + 1}

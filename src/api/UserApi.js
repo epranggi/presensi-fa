@@ -22,14 +22,18 @@ export const UpdateUser = async (data, id) => {
     const header = {
         headers: {
             Authorization: `Bearer ${token}`,
-            'Content-Type': 'multipart/form-data',
             'Accept': 'application/json'
         }
     }
 
     try {
-        const response = await axios.post(`${API_URL}user/${id}`, data, header)
-        return(response.data)
+        if (data instanceof FormData) {
+            const response = await axios.post(`${API_URL}user/${id}`, data, header)
+            return (response.data)
+        } else {
+            const response = await axios.patch(`${API_URL}user/${id}`, data, header)
+            return (response.data)
+        }
     } catch (error) {
         throw error.response?.data || { message: 'Gagal mengupdate Akun' };
     }
@@ -39,7 +43,7 @@ export const GetMembersData = async () => {
     const token = localStorage.getItem('token')
 
     const header = {
-        headers : {
+        headers: {
             Authorization: `Bearer ${token}`,
         }
     }
