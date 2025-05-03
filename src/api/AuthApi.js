@@ -15,8 +15,7 @@ export const LoginRequest = async (user_input, password, device_name) => {
         if (response.data.token) {
             localStorage.setItem('token', response.data.token);
         }
-        console.log(response.data.token)
-        return response.data
+        return response
     } catch (error) {
         throw error.response?.data || { message: 'Login gagal' };
     }

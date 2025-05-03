@@ -23,29 +23,15 @@ export const LoginPage = () => {
         deviceInfo()
     }, [])
 
-    const cekRole = () => {
-        if (!user) return;
-
-        if (user.role === 'admin') {
-            navigate('/dashboard-admin');
-        } else if (user.role === 'member') {
-            navigate('/dashboard');
-        } else {
-            console.log('Role tidak diketahui');
-        }
-    };
-
-    useEffect(() => {
-        cekRole();
-    }, [user]);
-
     const handleSubmit = async (e) => {
         e.preventDefault()
         setLoading(true)
 
         try {
-            console.log(userInput, password, deviceName)
-            await Login(userInput, password, deviceName)
+            const response = await Login(userInput, password, deviceName)
+            if (response.status = 200) {
+                navigate('/dashboard')
+            }
         } catch (err) {
             console.log(err)
             setErrors(err)

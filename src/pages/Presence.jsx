@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
-import { DeletePresence, GetPresences } from "../api/PresenceApi";
+import { DeletePresence, GetPresences, UpdatePresenceStatus } from "../api/PresenceApi";
 import { AppLayout } from "../layouts/AppLayout";
 import { ClipboardDocumentListIcon, TrashIcon } from "@heroicons/react/24/outline";
 import { LoaderPuff } from "../components/Loader";
+import { useAuth } from "../context/AuthContext";
 
 export const Presence = () => {
     const [presence, setPresence] = useState([]);
@@ -18,6 +19,8 @@ export const Presence = () => {
     const [selectedLab, setSelectedLab] = useState("");
     const [selectedDate, setSelectedDate] = useState("");
     const [selectedStatus, setSelectedStatus] = useState("");
+
+    const { user } = useAuth()
 
     useEffect(() => {
         const fetchPresence = async () => {
@@ -79,6 +82,26 @@ export const Presence = () => {
             alert("Gagal menghapus presensi.");
         } finally {
             setLoadingDelete(false)
+        }
+    };
+
+    const handleUpdateStatus = async (id, status) => {
+        try {
+            await UpdatePresenceStatus(id, status);
+            // Update status langsung pada data yang ada
+            setPresence(prev =>
+                prev.map(item =>
+                    item.id === id ? { ...item, status } : item
+                )
+            );
+            setFilteredPresence(prev =>
+                prev.map(item =>
+                    item.id === id ? { ...item, status } : item
+                )
+            );
+        } catch (err) {
+            console.error(err);
+            alert("Gagal mengupdate status presensi.");
         }
     };
 
@@ -162,8 +185,42 @@ export const Presence = () => {
                                             {item.status}
                                         </span>
                                     </div>
+                                    {user?.role === 'admin' && (
+                                        <div className='flex space-x-2'>
+                                            {/* Update status buttons */}
+                                            {item.status === "pending" && (
+                                                <button
+                                                    onClick={() => handleUpdateStatus(item.id, "validated")}
+                                                    className="text-green-500 hover:text-green-700 transition-colors"
+                                                    title="Validasi"
+                                                >
+                                                    Validasi
+                                                </button>
+                                            )}
+                                            {item.status === "validated" && (
+                                                <button
+                                                    onClick={() => handleUpdateStatus(item.id, "pending")}
+                                                    className="text-yellow-500 hover:text-yellow-700 transition-colors"
+                                                    title="Unvalidate"
+                                                >
+                                                    Unvalidate
+                                                </button>
+                                            )}
+                                            <button
+                                                onClick={() => {
+                                                    setSelectedId(item.id);
+                                                    setShowModal(true);
+                                                }}
+                                                className="text-red-500 hover:text-red-700 transition-colors"
+                                                title="Hapus presensi"
+                                            >
+                                                <TrashIcon className="h-5 w-5" />
+                                            </button>
+                                        </div>
+                                    )}
+
                                     {/* Tombol Hapus hanya ditampilkan jika status = "pending" */}
-                                    {item.status === "pending" && (
+                                    {item.status === "pending" && user?.role === "member" && (
                                         <button
                                             onClick={() => {
                                                 setSelectedId(item.id);

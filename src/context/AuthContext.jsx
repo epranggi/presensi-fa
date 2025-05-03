@@ -27,9 +27,8 @@ export const AuthProvider = ({ children }) => {
     const Login = async (user_input, password, device_name) => {
         try {
             const response = await LoginRequest(user_input, password, device_name)
-            console.log(response.user)
-            setUser(response.user)
-            return response.user
+            setUser(response.data.user)
+            return response
         } catch (err) {
             throw err.message || { message: 'Login gagal' };
         }

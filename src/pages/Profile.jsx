@@ -11,13 +11,14 @@ import {
     PencilSquareIcon,
 } from "@heroicons/react/24/outline";
 import { Link } from "react-router-dom";
+import CenterContainer from "../layouts/CenterContainer";
 
 export const Profile = () => {
     const { user } = useAuth();
 
     return (
         <AppLayout>
-            <div className="max-w-4xl mx-auto mt-20 md:mt-12 lg:mt-0 p-6 md:p-8 bg-white border border-gray-100 shadow-xl rounded-3xl relative overflow-hidden">
+            <div className="mt-16 max-w-4xl mx-auto md:mt-12 lg:mt-0 p-6 md:p-8 bg-white border border-gray-100 shadow-xl rounded-3xl relative overflow-hidden">
                 {/* Background decorative elements */}
                 <div className="absolute -top-20 -right-20 w-64 h-64 bg-indigo-50 rounded-full opacity-50"></div>
                 <div className="absolute -bottom-20 -left-20 w-64 h-64 bg-purple-50 rounded-full opacity-50"></div>
@@ -85,7 +86,7 @@ export const Profile = () => {
                                 className="bg-green-100 p-3 rounded-xl"
                             />
 
-                            <div className="sm:col-span-2">
+                            <div className={`sm:col-span-2 ${user?.role === 'admin' ? 'hidden' : ''}`}>
                                 <div className="bg-gradient-to-r from-indigo-500 to-purple-600 p-4 rounded-xl text-white">
                                     <p className="font-medium mb-2">Jumlah Presensi:</p>
                                     <div className="flex items-center gap-2">
