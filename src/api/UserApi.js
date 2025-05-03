@@ -34,3 +34,20 @@ export const UpdateUser = async (data, id) => {
         throw error.response?.data || { message: 'Gagal mengupdate Akun' };
     }
 }
+
+export const GetMembersData = async () => {
+    const token = localStorage.getItem('token')
+
+    const header = {
+        headers : {
+            Authorization: `Bearer ${token}`,
+        }
+    }
+
+    try {
+        const response = await axios.get(`${API_URL}users`, header)
+        return response
+    } catch (error) {
+        throw error.response?.data || { message: 'Gagal Mengambil Data Anggota' };
+    }
+}

@@ -10,7 +10,7 @@ export const Navbar = ({ user }) => {
     const toggleMenu = () => setIsOpen(!isOpen);
     const [errors, setErrors] = useState(null)
     const [loading, setLoading] = useState(false)
-    const {Logout} = useAuth();
+    const { Logout } = useAuth();
     const navigate = useNavigate()
 
     const handleClick = async () => {
@@ -47,6 +47,12 @@ export const Navbar = ({ user }) => {
                     <Link to="/dashboard" className="text-gray-700 hover:text-blue-600 transition">Dashboard</Link>
                     <Link to="/profile" className="text-gray-700 hover:text-blue-600 transition">Account</Link>
                     <Link to="/presence" className="text-gray-700 hover:text-blue-600 transition">Presensi</Link>
+                    {user?.role === 'admin' && (
+                        <Link to="/members" className="text-gray-700 hover:text-blue-600 transition">Data Anggota</Link>
+                    )}
+                    {user?.role === 'admin' && (
+                        <Link to="/recap-honor" className="text-gray-700 hover:text-blue-600 transition">Rekap Honor</Link>
+                    )}
                     <button className="text-gray-700 hover:text-red-600 transition" onClick={handleClick}>Logout</button>
                     {loading ? <LoaderPuff /> : ""}
                     {errors && <p className="text-red-600 mt-2 text-sm">{errors}</p>}
@@ -66,6 +72,12 @@ export const Navbar = ({ user }) => {
                     <Link to="/dashboard" className="block text-gray-700 hover:text-blue-600 transition">Dashboard</Link>
                     <Link to="/profile" className="block text-gray-700 hover:text-blue-600 transition">Account</Link>
                     <Link to="/presence" className="block text-gray-700 hover:text-blue-600 transition">Presensi</Link>
+                    {user?.role === 'admin' && (
+                        <Link to="/members" className="block text-gray-700 hover:text-blue-600 transition">Data Anggota</Link>
+                    )}
+                    {user?.role === 'admin' && (
+                        <Link to="/recap-honor" className="block text-gray-700 hover:text-blue-600 transition">Rekap Honor</Link>
+                    )}
                     <button className="block text-gray-700 hover:text-red-600 transition" onClick={handleClick}>Logout</button>
                     {loading ? <LoaderPuff /> : ""}
                     {errors && <p className="text-red-600 mt-2 text-sm">{errors}</p>}

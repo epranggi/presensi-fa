@@ -8,6 +8,8 @@ import { Profile } from "../pages/Profile";
 import { ProfileEdit } from "../pages/ProfileEdit";
 import { Presence } from "../pages/Presence";
 import { PresenceAdd } from "../pages/PresenceAdd";
+import { Members } from "../pages/Members";
+import { RecapHonor } from "../pages/RecapHonor";
 
 export const router = createBrowserRouter([
     {
@@ -42,5 +44,13 @@ export const router = createBrowserRouter([
     {
         path: "/presence/add",
         element: <PresenceAdd></PresenceAdd>,
+    },
+    {
+        path: "/members",
+        element: <Members></Members>,
+    },
+    {
+        path: "/recap-honor",
+        element: <RecapHonor></RecapHonor>,
     },
 ])
