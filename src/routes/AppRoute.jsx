@@ -10,47 +10,74 @@ import { Presence } from "../pages/Presence";
 import { PresenceAdd } from "../pages/PresenceAdd";
 import { Members } from "../pages/Members";
 import { RecapHonor } from "../pages/RecapHonor";
+import GuestRoute from "./GuestRoute";
+import ProtectedRoute from "./ProtectedRoute";
+import AdminRoute from "./AdminRoute";
 
 export const router = createBrowserRouter([
     {
         path: "/",
-        element: <HomePage></HomePage>,
+        element: <GuestRoute>
+            <HomePage></HomePage>
+        </GuestRoute>,
         errorElement: <ErrorPage />,
     },
     {
         path: "/login",
-        element: <LoginPage></LoginPage>,
+        element: <GuestRoute>
+            <LoginPage></LoginPage>
+        </GuestRoute>,
     },
     {
         path: "/register",
-        element: <RegisterPage></RegisterPage>,
+        element: <GuestRoute>
+            <RegisterPage></RegisterPage>
+        </GuestRoute>,
     },
     {
         path: "/dashboard",
-        element: <Dashboard></Dashboard>,
+        element: <ProtectedRoute>
+            <Dashboard></Dashboard>
+        </ProtectedRoute>,
     },
     {
         path: "/profile",
-        element: <Profile></Profile>,
+        element: <ProtectedRoute>
+            <Profile></Profile>
+        </ProtectedRoute>,
     },
     {
         path: "/profile/edit",
-        element: <ProfileEdit></ProfileEdit>,
+        element: <ProtectedRoute>
+            <ProfileEdit></ProfileEdit>
+        </ProtectedRoute>,
     },
     {
         path: "/presence",
-        element: <Presence></Presence>,
+        element: <ProtectedRoute>
+            <Presence></Presence>
+        </ProtectedRoute>,
     },
     {
         path: "/presence/add",
-        element: <PresenceAdd></PresenceAdd>,
+        element: <ProtectedRoute>
+            <PresenceAdd></PresenceAdd>
+        </ProtectedRoute>,
     },
     {
         path: "/members",
-        element: <Members></Members>,
+        element: <ProtectedRoute>
+            <AdminRoute>
+                <Members></Members>
+            </AdminRoute>
+        </ProtectedRoute>,
     },
     {
         path: "/recap-honor",
-        element: <RecapHonor></RecapHonor>,
+        element: <ProtectedRoute>
+            <AdminRoute>
+                <RecapHonor></RecapHonor>
+            </AdminRoute>
+        </ProtectedRoute>,
     },
 ])

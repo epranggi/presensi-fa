@@ -5,8 +5,10 @@ const AuthContext = createContext()
 
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null)
+    const [loading, setLoading] = useState(false);
 
     const checkAuth = async () => {
+        setLoading(true);
         try {
             const token = localStorage.getItem('token')
             if (token) {
@@ -16,13 +18,14 @@ export const AuthProvider = ({ children }) => {
         } catch (err) {
             console.error('Token validation failed:', err);
             localStorage.removeItem('token');
+        } finally {
+            setLoading(false);
         }
     }
 
     useEffect(() => {
         checkAuth()
     }, [])
-
 
     const Login = async (user_input, password, device_name) => {
         try {
@@ -46,7 +49,7 @@ export const AuthProvider = ({ children }) => {
 
     return (
         <>
-            <AuthContext.Provider value={{ user, Login, Logout, setUser }}>
+            <AuthContext.Provider value={{ user, Login, Logout, setUser, loading }}>
                 {children}
             </AuthContext.Provider>
         </>
