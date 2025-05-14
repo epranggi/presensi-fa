@@ -10,6 +10,7 @@ export const Presence = () => {
     const [errors, setErrors] = useState(null);
     const [loading, setLoading] = useState(false);
 
+    const [loadingStatusId, setLoadingStatusId] = useState(null);
     const [showModal, setShowModal] = useState(false);
     const [selectedId, setSelectedId] = useState(null);
     const [loadingDelete, setLoadingDelete] = useState(false)
@@ -87,6 +88,7 @@ export const Presence = () => {
 
     const handleUpdateStatus = async (id, status) => {
         try {
+            setLoadingStatusId(id);
             await UpdatePresenceStatus(id, status);
             // Update status langsung pada data yang ada
             setPresence(prev =>
@@ -102,6 +104,8 @@ export const Presence = () => {
         } catch (err) {
             console.error(err);
             alert("Gagal mengupdate status presensi.");
+        } finally {
+            setLoadingStatusId(null); // <== Reset setelah selesai
         }
     };
 
@@ -189,22 +193,31 @@ export const Presence = () => {
                                         <div className='flex space-x-2'>
                                             {/* Update status buttons */}
                                             {item.status === "pending" && (
-                                                <button
-                                                    onClick={() => handleUpdateStatus(item.id, "validated")}
-                                                    className="text-green-500 hover:text-green-700 transition-colors"
-                                                    title="Validasi"
-                                                >
-                                                    Validasi
-                                                </button>
+                                                loadingStatusId === item.id ? (
+                                                    <LoaderPuff />
+                                                ) : (
+                                                    <button
+                                                        onClick={() => handleUpdateStatus(item.id, "validated")}
+                                                        className="text-green-500 hover:text-green-700 transition-colors"
+                                                        title="Validasi"
+                                                    >
+                                                        Validasi
+                                                    </button>
+                                                )
                                             )}
+
                                             {item.status === "validated" && (
-                                                <button
-                                                    onClick={() => handleUpdateStatus(item.id, "pending")}
-                                                    className="text-yellow-500 hover:text-yellow-700 transition-colors"
-                                                    title="Unvalidate"
-                                                >
-                                                    Unvalidate
-                                                </button>
+                                                loadingStatusId === item.id ? (
+                                                    <LoaderPuff />
+                                                ) : (
+                                                    <button
+                                                        onClick={() => handleUpdateStatus(item.id, "pending")}
+                                                        className="text-yellow-500 hover:text-yellow-700 transition-colors"
+                                                        title="Unvalidate"
+                                                    >
+                                                        Unvalidate
+                                                    </button>
+                                                )
                                             )}
                                             <button
                                                 onClick={() => {
