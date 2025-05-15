@@ -52,6 +52,17 @@ export const LoginPage = () => {
                 <h3 className="text-md text-gray-800 mb-6 text-center">
                     Hai, silahkan login terlebih dahulu untuk bisa masuk ke dalam sistem
                 </h3>
+                {errors && (
+                    <div className="bg-red-50 border-l-4 border-red-500 text-red-700 p-4 rounded-md mb-6">
+                        <div className="flex items-center">
+                            <svg className="h-5 w-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                <path fillRule="evenodd" d="M18 10c0 4.418-3.582 8-8 8s-8-3.582-8-8 3.582-8 8-8 8 3.582 8 8zm-8 3a1 1 0 100-2 1 1 0 000 2zm-.75-7.75a.75.75 0 011.5 0v4a.75.75 0 01-1.5 0v-4z" clipRule="evenodd" />
+                            </svg>
+                            <span>{typeof errors === 'string' ? errors : "Username atau password salah."}</span>
+                        </div>
+                    </div>
+                )}
+
                 <form className="space-y-5" onSubmit={handleSubmit}>
                     <div>
                         <label className="block text-sm font-medium text-gray-700 mb-1">
