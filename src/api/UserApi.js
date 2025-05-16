@@ -2,13 +2,21 @@ import axios from 'axios';
 const API_URL = import.meta.env.VITE_API_URL
 
 export const RegisterUser = async (data) => {
-    console.log(data)
+    console.log('Sending data:', Array.from(data.entries())); // Better FormData logging
 
     try {
-        const response = await axios.post(`${API_URL}user`, data)
-        return response.data
+        const response = await axios.post(`${API_URL}user`, data, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        });
+        return response.data;
     } catch (error) {
-        throw error.response?.data || { message: 'Gagal Membuat Akun' };
+        console.error('API Error:', error.response?.data || error.message);
+        throw error.response?.data || {
+            message: 'Gagal Membuat Akun',
+            errors: error.response?.data?.errors || {}
+        };
     }
 }
 

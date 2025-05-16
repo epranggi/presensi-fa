@@ -31,6 +31,7 @@ export const AuthProvider = ({ children }) => {
         try {
             const response = await LoginRequest(user_input, password, device_name)
             setUser(response.data.user)
+            console.log(response.data.user)
             return response
         } catch (err) {
             throw err.message || { message: 'Login gagal' };

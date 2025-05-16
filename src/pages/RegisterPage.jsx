@@ -80,7 +80,7 @@ export const RegisterPage = () => {
                 return response
             } catch (err) {
                 const newErrors = {};
-
+                console.error('Full error:', error.response); // Add this line
                 // Telusuri setiap key di error
                 if (err?.errors) {
                     for (const key in err.errors) {
