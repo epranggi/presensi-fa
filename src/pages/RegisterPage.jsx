@@ -27,8 +27,29 @@ export const RegisterPage = () => {
     };
 
     const handleFileChange = (e) => {
-        setImage(e.target.files[0]);
+        const file = e.target.files[0];
+        const allowedTypes = ['image/jpeg', 'image/png', 'image/jpg'];
+
+        if (file) {
+            if (!allowedTypes.includes(file.type)) {
+                setErrors((prev) => ({ ...prev, image: 'Foto harus berupa jpeg, png, atau jpg' }));
+                setImage(null);
+                e.target.value = null; // Reset input file
+                return;
+            }
+
+            if (file.size > 2 * 1024 * 1024) {
+                setErrors((prev) => ({ ...prev, image: 'Ukuran maksimal 2MB' }));
+                setImage(null);
+                e.target.value = null; // Reset input file
+                return;
+            }
+
+            setImage(file);
+            setErrors((prev) => ({ ...prev, image: null })); // Clear error jika valid
+        }
     };
+
 
     const validate = () => {
         let err = {};
@@ -48,12 +69,6 @@ export const RegisterPage = () => {
 
         if (!form.password) err.password = 'Password wajib diisi';
         if (form.password !== form.confirmPassword) err.confirmPassword = 'Password tidak cocok';
-
-        if (image && !['image/jpeg', 'image/png', 'image/jpg'].includes(image.type)) {
-            err.image = 'Foto harus berupa jpeg, png, atau jpg';
-        } else if (image && image.size > 2 * 1024 * 1024) {
-            err.image = 'Ukuran maksimal 2MB';
-        }
 
         setErrors(err);
         return Object.keys(err).length === 0;

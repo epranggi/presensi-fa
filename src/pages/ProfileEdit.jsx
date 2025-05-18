@@ -11,6 +11,8 @@ export const ProfileEdit = () => {
     const [errors, setErrors] = useState(null)
     const [loading, setLoading] = useState(false)
     const [isSuccess, setIsSuccess] = useState(false)
+    const [imageError, setImageError] = useState(null);
+
 
     const [form, setForm] = useState({
         name: user?.name || "",
@@ -41,12 +43,17 @@ export const ProfileEdit = () => {
     const handleImageUpload = (e) => {
         const file = e.target.files[0];
         if (file) {
+            if (file.size > 2 * 1024 * 1024) {
+                setImageError("Ukuran gambar maksimal 2MB.");
+                return;
+            }
             const url = URL.createObjectURL(file);
-            console.log(url)
             setImageSrc(url);
+            setImage(file);
+            setImageError(null);
         }
-        setImage(e.target.files[0])
-    }
+    };
+
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -151,6 +158,16 @@ export const ProfileEdit = () => {
                             <p className="text-sm text-gray-500 mt-2">Upload foto dari perangkat</p>
                         </div>
                     </div>
+                    {imageError && (
+                        <div className="bg-red-50 border-l-4 border-red-500 text-red-700 p-4 rounded-md mb-6 max-w-2xl mx-auto">
+                            <div className="flex items-center">
+                                <svg className="h-5 w-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+                                </svg>
+                                <span>{imageError}</span>
+                            </div>
+                        </div>
+                    )}
 
                     {/* Input Fields */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">

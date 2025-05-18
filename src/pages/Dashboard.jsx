@@ -96,15 +96,26 @@ export const Dashboard = () => {
 
                 {/* Tombol Presensi */}
                 <div className="flex justify-center">
-                    <Link to={`${user?.role === 'member' ? '/presence/add' : '/presence'}`}>
-                        <button className="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-6 py-3 rounded-xl shadow-lg transition-all">
+                    <Link to={`${user?.role === 'member' && user?.status === 'active' ? '/presence/add' : '/presence'}`} className={`${user?.status === 'inactive' ? 'hidden' : 'block'}`}>
+                        <button className='bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-6 py-3 rounded-xl shadow-lg transition-all'>
                             {`${user?.role === 'member' ? '+ Lakukan Presensi Sekarang' : `Lakukan Validasi Sekarang`}`}
                         </button>
                     </Link>
+                    <div className={`${user?.status === 'inactive' ? 'block' : 'hidden'} bg-red-50 border-l-4 border-red-500 text-red-700 p-4 rounded-md mb-6`}>
+                        <div className="flex items-center">
+                            <svg className="h-5 w-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                <path fillRule="evenodd" d="M18 10c0 4.418-3.582 8-8 8s-8-3.582-8-8 3.582-8 8-8 8 3.582 8 8zm-8 3a1 1 0 100-2 1 1 0 000 2zm-.75-7.75a.75.75 0 011.5 0v4a.75.75 0 01-1.5 0v-4z" clipRule="evenodd" />
+                            </svg>
+                            <span className="flex flex-col">
+                                <p>Akun yang anda miliki tidak aktif</p>
+                                <p>Silahkan hubungi admin untuk aktivasi akun</p>
+                            </span>
+                        </div>
+                    </div>
                 </div>
             </div>
 
-           
+
         </AppLayout>
     );
 };

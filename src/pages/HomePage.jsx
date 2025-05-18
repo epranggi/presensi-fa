@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router-dom';
+import HomeIlustration from '../assets/images/home.svg'
 
 export const HomePage = () => {
   const navigate = useNavigate();
@@ -54,7 +55,7 @@ export const HomePage = () => {
           </div>
           <div className="md:w-1/2">
             <img 
-              src="https://illustrations.popsy.co/amber/digital-nomad.svg" 
+              src={HomeIlustration} 
               alt="Ilustrasi Presensi Digital" 
               className="w-full h-auto max-w-md mx-auto"
             />

@@ -1,4 +1,4 @@
-import { createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter, createHashRouter } from "react-router-dom";
 import { HomePage } from "../pages/HomePage";
 import { LoginPage } from "../pages/LoginPage";
 import { RegisterPage } from "../pages/RegisterPage";
@@ -13,8 +13,9 @@ import { RecapHonor } from "../pages/RecapHonor";
 import GuestRoute from "./GuestRoute";
 import ProtectedRoute from "./ProtectedRoute";
 import AdminRoute from "./AdminRoute";
+import ActiveMemberRoute from "./ActiveMemberRoute";
 
-export const router = createBrowserRouter([
+export const router = createHashRouter([
     {
         path: "/",
         element: <GuestRoute>
@@ -61,7 +62,9 @@ export const router = createBrowserRouter([
     {
         path: "/presence/add",
         element: <ProtectedRoute>
-            <PresenceAdd></PresenceAdd>
+            <ActiveMemberRoute>
+                <PresenceAdd></PresenceAdd>
+            </ActiveMemberRoute>
         </ProtectedRoute>,
     },
     {

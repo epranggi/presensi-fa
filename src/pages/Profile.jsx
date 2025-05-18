@@ -11,11 +11,9 @@ import {
     PencilSquareIcon,
 } from "@heroicons/react/24/outline";
 import { Link } from "react-router-dom";
-import CenterContainer from "../layouts/CenterContainer";
 
 export const Profile = () => {
     const { user } = useAuth();
-
     return (
         <AppLayout>
             <div className="mt-16 max-w-4xl mx-auto md:mt-12 lg:mt-0 p-6 md:p-8 bg-white border border-gray-100 shadow-xl rounded-3xl relative overflow-hidden">
@@ -92,7 +90,7 @@ export const Profile = () => {
                                     <div className="flex items-center gap-2">
                                         <span className="inline-flex items-center px-3 py-1 bg-white text-indigo-700 text-xs font-semibold rounded-full">
                                             <CheckCircleIcon className="h-4 w-4 mr-1" />
-                                            {user?.presence || 0} Kehadiran
+                                            {user?.presence_count || 0} Kehadiran
                                         </span>
                                         <span className="text-xs opacity-80 ml-auto">
                                             Terakhir update: {new Date().toLocaleDateString()}
